@@ -7,42 +7,35 @@ const division = document.querySelector('#division')
 const equalSign = document.querySelector('#equalSign')
 const result = document.querySelector('#result')
 const record = document.querySelector('#record')
+const state = document.querySelector('#state')
 
-let x = 0
-let y = 0
+let x = null
+let y = null
 let operator = ''
 
 clear.addEventListener('click', () => {
     clearInput()
     result.value = ''
-    input.value = ''
-    x = 0
-    y = 0
+    x = null
+    y = null
     operator = ''
+    state.textContent = ''
 })
 
 plus.addEventListener('click', () => {
-    x = setXorY(input.value)
-    operator = '+'
-    clearInput()
+    clickEvent('+')
 })
 
 subtract.addEventListener('click', () => {
-    x = setXorY(input.value)
-    operator = '-'
-    clearInput()
+    clickEvent('-')
 })
 
 multiply.addEventListener('click', () => {
-    x = setXorY(input.value)
-    operator = '*'
-    clearInput()
+    clickEvent('*')
 })
 
 division.addEventListener('click', () => {
-    x = setXorY(input.value)
-    operator = '/'
-    clearInput()
+    clickEvent('/')
 })
 
 equalSign.addEventListener('click', () => {
@@ -52,13 +45,23 @@ equalSign.addEventListener('click', () => {
         result.value = operate()
 
         var newRecord = document.createElement('div')
-        record.appendChild(newRecord)
-        newRecord.textContent = String(x) + operator + String(y) + '=' + String(result.value)
+        record.prepend(newRecord)
+        newRecord.textContent = String(x) + ' ' + operator + ' ' + String(y) + ' = ' + String(result.value)
     }
-    
+
     clearInput()
-    x = 0
-    y = 0
+    x = null
+    y = null
+    operator = ''
+    state.textContent = ''
+})
+
+input.addEventListener('keyup', () => {
+    if (operator === '') {
+        state.textContent = input.value
+    } else {
+        state.textContent = String(x) + ' ' + operator + ' ' + input.value
+    }
 })
 
 function setXorY(inputValue) {
@@ -86,5 +89,14 @@ function operate() {
         return x / y
     }
     return null
+}
+
+function clickEvent(clickedOperator) {
+    if (input.value !== '' && x === null) {
+        x = setXorY(input.value)
+        operator = clickedOperator
+        state.textContent = String(x) + ' ' + operator
+        clearInput()
+    }
 }
 
