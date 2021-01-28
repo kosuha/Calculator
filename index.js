@@ -46,15 +46,19 @@ division.addEventListener('click', () => {
 })
 
 equalSign.addEventListener('click', () => {
-    y = setXorY(input.value)
-    console.log(x, y);
-    result.value = operate()
+    if (operator !== '') {
+        y = setXorY(input.value)
+        console.log(x, y);
+        result.value = operate()
 
-    var newRecord = document.createElement('div')
-    record.appendChild(newRecord)
-    newRecord.textContent = String(x) + operator + String(y) + '=' + String(result.value)
-
+        var newRecord = document.createElement('div')
+        record.appendChild(newRecord)
+        newRecord.textContent = String(x) + operator + String(y) + '=' + String(result.value)
+    }
+    
     clearInput()
+    x = 0
+    y = 0
 })
 
 function setXorY(inputValue) {
